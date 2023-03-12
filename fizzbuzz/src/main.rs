@@ -33,3 +33,24 @@ fn main() {
 }
 
 // 1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz
+
+#[cfg(test)]
+mod tests {
+    use crate::{fizzbuzz, fizzbuzz_match};
+
+    #[test]
+    fn test_fizzbuzz() {
+        assert_eq!(String::from("1"), fizzbuzz(1));
+        assert_eq!(String::from("fizz"), fizzbuzz(3));
+        assert_eq!(String::from("buzz"), fizzbuzz(5));
+        assert_eq!(String::from("fizzbuzz"), fizzbuzz(15))
+    }
+
+    #[test]
+    fn test_fizzbuzz_match() {
+        assert_eq!(String::from("1"), fizzbuzz_match(1));
+        assert_eq!(String::from("fizz"), fizzbuzz_match(3));
+        assert_eq!(String::from("buzz"), fizzbuzz_match(5));
+        assert_eq!(String::from("fizzbuzz"), fizzbuzz_match(15))
+    }
+}
