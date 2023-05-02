@@ -1,6 +1,6 @@
 [workspace]
-
 members = [
     "fizzbuzz",
-    "blog"
+    "blog",
+    "aoc",
 ]
