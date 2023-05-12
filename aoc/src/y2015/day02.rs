@@ -41,10 +41,12 @@ pub fn part_1() -> u32 {
             .split('x')
             .map(|d| d.parse::<u32>().unwrap_or(1))
             .collect();
+
         let areas = dimensions
             .into_iter()
             .combinations(2)
             .map(|side| side.into_iter().product());
+
         let slack = areas.clone().min().expect("There will be a min");
         let box_area = areas.fold(0, |mut acc, area: u32| {
             acc += 2 * area;
@@ -56,7 +58,28 @@ pub fn part_1() -> u32 {
     })
 }
 
-// pub fn part_2() -> i32 {}
+pub fn part_2() -> i32 {
+    INPUT.lines().fold(0, |mut tot, el| {
+        let dimensions: Vec<u32> = el
+            .split('x')
+            .map(|d| d.parse::<u32>().unwrap_or(1))
+            .collect();
+
+        let areas = dimensions
+            .into_iter()
+            .combinations(2)
+            .map(|side| side.into_iter().product());
+
+        let slack = areas.clone().min().expect("There will be a min");
+        let box_area = areas.fold(0, |mut acc, area: u32| {
+            acc += 2 * area;
+            acc
+        });
+
+        tot += box_area + slack;
+        tot
+    })
+}
 
 #[cfg(test)]
 mod test {
