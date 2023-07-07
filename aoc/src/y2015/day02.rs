@@ -2,16 +2,17 @@ use itertools::Itertools;
 
 use std::sync::Once;
 
-static INPUT: &'static str = include_str!("./day02.txt");
+use crate::Solution;
+
 static INIT: Once = Once::new();
 static mut BOXES: Vec<GiftBox> = Vec::new();
 
 /// Get a static reference to list of gift boxes
-fn input_gift_boxes() -> &'static Vec<GiftBox> {
+fn input_gift_boxes(input: &str) -> &'static Vec<GiftBox> {
     unsafe {
         INIT.call_once(|| {
             BOXES.extend(
-                INPUT
+                input
                     .lines()
                     .map(|line| {
                         let dimensions = line
@@ -62,9 +63,9 @@ impl From<Vec<u64>> for GiftBox {
             + bow;
 
         GiftBox {
-            l,
-            w,
-            h,
+            // l,
+            // w,
+            // h,
             surface_area,
             slack,
             ribbon_required,
@@ -73,50 +74,35 @@ impl From<Vec<u64>> for GiftBox {
 }
 
 struct GiftBox {
-    l: u64,
-    w: u64,
-    h: u64,
+    // l: u64,
+    // w: u64,
+    // h: u64,
     surface_area: u64,
     slack: u64,
     ribbon_required: u64,
 }
 
-// impl GiftBox {
-//     fn surface_area(&self) -> u64 {
-//         self.surface_area
-//     }
-//
-//     fn slack(&self) -> u64 {
-//         self.slack
-//     }
-//
-//     fn ribbon_required(&self) -> u64 {
-//         self.slack
-//     }
-// }
+pub fn part_1(input: &str) -> Solution {
+    let boxes = input_gift_boxes(input);
+    let t = std::time::Instant::now();
 
-pub fn part_1() -> u64 {
-    let boxes = input_gift_boxes();
+    let output: u64 = boxes.iter().map(|bx| bx.surface_area + bx.slack).sum();
 
-    boxes.iter().map(|bx| bx.surface_area + bx.slack).sum()
+    let output = output.to_string();
+    let time_taken = t.elapsed();
+    Solution { output, time_taken }
 }
 
-pub fn part_2() -> u64 {
-    let boxes = input_gift_boxes();
+pub fn part_2(input: &str) -> Solution {
+    let t = std::time::Instant::now();
 
-    boxes.iter().map(|bx| bx.ribbon_required).sum()
+    let boxes = input_gift_boxes(input);
+
+    let output: u64 = boxes.iter().map(|bx| bx.ribbon_required).sum();
+
+    let output = output.to_string();
+    let time_taken = t.elapsed();
+    Solution { output, time_taken }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    #[test]
-    fn test_part_1() {
-        println!("Day 2; pt 1: {}", part_1());
-    }
-
-    #[test]
-    fn test_part_2() {
-        println!("Day 2; pt 2: {}", part_2());
-    }
-}
+create_get_day!("./day02.json");

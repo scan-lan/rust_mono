@@ -1,7 +1,9 @@
-static INPUT: &'static str = include_str!("./day01.txt");
+use crate::Solution;
 
-pub fn part_1() -> i32 {
-    INPUT.chars().fold(0, |mut floor, el| match el {
+fn part_1(input: &str) -> Solution {
+    let t = std::time::Instant::now();
+
+    let output = input.chars().fold(0, |mut floor, el| match el {
         '(' => {
             floor += 1;
             floor
@@ -11,38 +13,31 @@ pub fn part_1() -> i32 {
             floor
         }
         _ => floor,
-    })
+    });
+
+    let output = output.to_string();
+    let time_taken = t.elapsed();
+    Solution { output, time_taken }
 }
 
-pub fn part_2() -> i32 {
-    INPUT.chars().enumerate().fold(0, |mut floor, (i, el)| {
-        if floor == -1 {
-            println!("{}", i)
+fn part_2(input: &str) -> Solution {
+    let t = std::time::Instant::now();
+
+    let output: i32 = input.chars().fold(0, |mut floor, el| match el {
+        '(' => {
+            floor += 1;
+            floor
         }
-        match el {
-            '(' => {
-                floor += 1;
-                floor
-            }
-            ')' => {
-                floor -= 1;
-                floor
-            }
-            _ => floor,
+        ')' => {
+            floor -= 1;
+            floor
         }
-    })
+        _ => floor,
+    });
+
+    let output = output.to_string();
+    let time_taken = t.elapsed();
+    Solution { output, time_taken }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    #[test]
-    fn test_part_1() {
-        println!("Day 1; pt 1: {}", part_1());
-    }
-
-    #[test]
-    fn test_part_2() {
-        println!("Day 1; pt 2: {}", part_2());
-    }
-}
+create_get_day!("./day01.json");

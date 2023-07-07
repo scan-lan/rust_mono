@@ -1,2 +1,4 @@
-mod day01;
-mod day02;
+#[macro_use]
+pub mod day01;
+#[macro_use]
+pub mod day02;
