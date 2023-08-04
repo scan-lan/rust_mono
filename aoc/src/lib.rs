@@ -21,8 +21,7 @@ pub struct Solution {
 
 pub struct DaySolution {
     pub info: DayInfo,
-    pub part_1: fn(&str) -> Solution,
-    pub part_2: fn(&str) -> Solution,
+    pub parts: (fn(&str) -> Solution, fn(&str) -> Solution),
 }
 
 pub struct Options {
@@ -37,16 +36,20 @@ pub fn show_solutions(options: Options) {
     years.iter().for_each(|year| {
         year.days.iter().enumerate().for_each(|(n, day)| {
             println!("DAY {}\n===============\n\n", n + 1);
-            let solution_1 = (day.part_1)(&day.info.input);
-            println!(
-                "Part 1:\n\n{}\n\nSolution: {}\nTime taken: {:?}",
-                day.info.part_1, solution_1.output, solution_1.time_taken
-            );
-            let solution_2 = (day.part_2)(&day.info.input);
-            println!(
-                "\n---------------\n\nPart 2:\n\n{}\n\nSolution: {}\nTime taken: {:?}\n",
-                day.info.part_2, solution_2.output, solution_2.time_taken
-            );
+            (0..=1).for_each(|i| {
+                let solution = (if i == 0 { day.parts.0 } else { day.parts.1 })(&day.info.input);
+                println!(
+                    "Part {}:\n\n{}\n\nSolution: {}\nTime taken: {:?}",
+                    i + 1,
+                    (if i == 0 {
+                        &day.info.part_1
+                    } else {
+                        &day.info.part_2
+                    }),
+                    solution.output,
+                    solution.time_taken
+                );
+            });
         })
     });
 }
@@ -60,8 +63,7 @@ macro_rules! create_get_day {
 
             crate::DaySolution {
                 info: day_info,
-                part_1,
-                part_2,
+                parts: (part_1, part_2),
             }
         }
     };
