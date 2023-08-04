@@ -68,19 +68,73 @@ macro_rules! create_get_day {
 }
 
 mod y2015;
-use y2015::{day01, day02};
+
+macro_rules! get_year {
+    ($year:ident, $years:ident) => {
+        use $year::{
+            day01,
+            day02,
+            // day03,
+            // day04,
+            // day05,
+            // day06,
+            // day07,
+            // day08,
+            // day09,
+            // day10,
+            // day11,
+            // day12,
+            // day13,
+            // day14,
+            // day15,
+            // day16,
+            // day17,
+            // day18,
+            // day19,
+            // day20,
+            // day21,
+            // day22,
+            // day23,
+            // day24,
+            // day25,
+        };
+        $years.push(Year {
+            year: 2015,
+            days: vec![
+                day01::get_day(),
+                day02::get_day(),
+                // day03::get_day(),
+                // day04::get_day(),
+                // day05::get_day(),
+                // day06::get_day(),
+                // day07::get_day(),
+                // day08::get_day(),
+                // day09::get_day(),
+                // day10::get_day(),
+                // day11::get_day(),
+                // day12::get_day(),
+                // day13::get_day(),
+                // day14::get_day(),
+                // day15::get_day(),
+                // day16::get_day(),
+                // day17::get_day(),
+                // day18::get_day(),
+                // day19::get_day(),
+                // day20::get_day(),
+                // day21::get_day(),
+                // day22::get_day(),
+                // day23::get_day(),
+                // day24::get_day(),
+                // day25::get_day(),
+            ],
+        });
+    };
+}
 
 pub fn get_years() -> Vec<Year> {
     let mut years = Vec::new();
 
-    years.push(Year {
-        year: 2015,
-        days: vec![
-            day01::get_day(),
-            day02::get_day(),
-            // ...
-        ],
-    });
+    get_year!(y2015, years);
 
     years
 }
