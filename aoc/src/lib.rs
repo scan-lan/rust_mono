@@ -14,6 +14,47 @@ pub struct DayInfo {
     input: String,
 }
 
+impl DayInfo {
+    fn prettify(s: &str) -> String {
+        s.chars()
+            .fold((0usize, String::new()), |(mut index, mut acc), chr| {
+                // if chr == ' ' && index % 80 > 60 {
+                //     acc.push('\n');
+                // } else {
+                //     acc.push(chr);
+                // }
+
+                if chr == '\n' {
+                    index = 0;
+                }
+
+                match index.cmp(&75) {
+                    std::cmp::Ordering::Less => {
+                        acc.push(chr);
+                        index += 1;
+                    }
+                    std::cmp::Ordering::Equal if chr == ' ' => {
+                        acc.push('\n');
+                        index = 0;
+                    }
+                    _ => {
+                        let (before, after) = acc.rsplit_once(' ').unwrap();
+                        acc = format!("{before}\n{after}{chr}");
+                        index = 0;
+                    }
+                };
+
+                (index, acc)
+            })
+            .1
+    }
+
+    pub fn format(&mut self) {
+        self.part_1 = Self::prettify(&self.part_1);
+        self.part_2 = Self::prettify(&self.part_2);
+    }
+}
+
 pub struct Solution {
     pub output: String,
     pub time_taken: Duration,
@@ -58,8 +99,9 @@ macro_rules! create_get_day {
     ($day_file:literal) => {
         pub fn get_day() -> crate::DaySolution {
             let day_json = include_str!($day_file);
-            let day_info: crate::DayInfo =
+            let mut day_info: crate::DayInfo =
                 serde_json::from_str(day_json).expect("the file should be correctly formatted");
+            day_info.format();
 
             crate::DaySolution {
                 info: day_info,
