@@ -19,12 +19,14 @@ impl Post {
         self.content.push_str(content);
     }
 
+    #[allow(dead_code)]
     pub fn request_review(&mut self) {
         if let Some(s) = self.state.take() {
             self.state = Some(s.request_review());
         }
     }
 
+    #[allow(dead_code)]
     pub fn approve(&mut self) {
         if let Some(s) = self.state.take() {
             self.state = Some(s.approve());
